@@ -24,7 +24,7 @@ services:
     volumes:
       - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
     ports:
-      - "80:80"
+      - "8081:80"   # serve via port 8081 instead of 80
     depends_on:
       - backend
       - frontend
