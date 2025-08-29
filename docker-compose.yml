@@ -43,16 +43,11 @@ services:
 
   certbot:
     image: certbot/certbot
-    depends_on:
-      - nginx
     volumes:
       - certbot-etc:/etc/letsencrypt
       - certbot-var:/var/www/certbot
-    entrypoint: >
-      sh -c "certbot certonly --webroot -w /var/www/certbot
-             --email admin@dcustom.co.uk
-             -d dcustom.co.uk -d www.dcustom.co.uk
-             --agree-tos --non-interactive"
+    entrypoint: /bin/sh
+
 
 volumes:
   certbot-etc:
