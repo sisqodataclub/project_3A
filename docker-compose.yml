@@ -1,17 +1,19 @@
+version: "3.9"
+
 services:
   backend:
     build:
       context: ./backend
       dockerfile: Dockerfile
-    #container_name: backend
+    restart: always
     volumes:
       - ./backend:/app
     command: >
       sh -c "python manage.py migrate &&
              python manage.py collectstatic --noinput &&
              gunicorn backend.wsgi:application --bind 0.0.0.0:8080"
-    ports:
-      - "8080:8080"
+    expose:
+      - "8080"
     env_file:
       - ./backend/.env
 
@@ -19,8 +21,36 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile
-    #container_name: frontend
-    ports:
-      - "3010:80"
+    restart: always
+    expose:
+      - "80"
     depends_on:
       - backend
+
+  nginx:
+    image: nginx:latest
+    restart: always
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - certbot-etc:/etc/letsencrypt
+      - certbot-var:/var/www/certbot
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - frontend
+      - backend
+
+  certbot:
+    image: certbot/certbot
+    volumes:
+      - certbot-etc:/etc/letsencrypt
+      - certbot-var:/var/www/certbot
+    entrypoint: >
+      sh -c "certbot certonly --webroot -w /var/www/certbot
+             --email your@email.com
+             -d www.dcustom.co.uk --agree-tos --non-interactive"
+
+volumes:
+  certbot-etc:
+  certbot-var:
