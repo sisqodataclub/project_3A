@@ -5,6 +5,7 @@ set -e  # Exit immediately if a command exits with a non-zero status
 # Configuration
 REPO_URL="https://github.com/sisqodataclub/project_3A.git"
 PROJECT_DIR="/opt/project_3A"
+DOMAIN="dcustom.co.uk"
 
 echo "🚀 Starting deployment..."
 
@@ -28,12 +29,13 @@ echo "📦 Running database migrations..."
 docker compose run --rm backend python manage.py makemigrations
 docker compose run --rm backend python manage.py migrate
 
-echo "🔑 Using existing SSL certificates from host..."
-if [ -d "/etc/letsencrypt/live/dcustom.co.uk" ]; then
-    echo "✅ Certificates found for dcustom.co.uk"
+echo "🔑 Checking SSL certificates..."
+if [ -d "/etc/letsencrypt/live/$DOMAIN" ]; then
+    echo "✅ SSL certificates found at /etc/letsencrypt/live/$DOMAIN"
 else
-    echo "❌ No certificates found at /etc/letsencrypt/live/dcustom.co.uk"
-    echo "Please issue them on the host with: sudo certbot certonly --nginx -d dcustom.co.uk -d www.dcustom.co.uk"
+    echo "❌ No SSL certificates found!"
+    echo "Run this on host before deploying:"
+    echo "  sudo certbot certonly --nginx -d $DOMAIN -d www.$DOMAIN"
     exit 1
 fi
 
