@@ -14,7 +14,7 @@ const IntroCard = () => {
     >
       <div className="mb-6">
         <h1 className="text-3xl sm:text-4xl font-extrabold text-white">
-            Hi, I’m <span className="text-[#915EFF]">Francis</span>
+            Hi, I’m <span className="text-[#915EFF]">Derrick</span>
         </h1>
         <p className="mt-3 text-white/90 text-base sm:text-lg max-w-xl leading-relaxed">
             Specialist in Data Analytics and Web Development,<br className="sm:block hidden" />
