@@ -25,7 +25,7 @@ services:
       dockerfile: Dockerfile
     restart: always
     ports:
-      - "3010:3010"  # map internal port 80 to host port 3010
+      - "3010:80"  # map internal port 80 to host port 3010
     depends_on:
       - backend
     networks:
