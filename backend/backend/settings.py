@@ -153,6 +153,18 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+
+#import os
+
+# existing static settings
+#STATIC_URL = '/static/'
+
+# add this
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+
+
+
 # Static files (CSS, JavaScript, Images)
 #STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 #STATIC_URL = '/static/'
