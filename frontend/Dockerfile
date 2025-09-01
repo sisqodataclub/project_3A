@@ -1,13 +1,19 @@
-# Stage 1: Build React app
+# Dockerfile
 FROM node:18 AS build
 
 WORKDIR /app
 COPY package.json package-lock.json ./
+
 RUN npm install
 
 COPY . .
+
+# Build Tailwind & React app
 RUN npm run build
 
-# Stage 2: Nginx will serve via docker-compose volume, so no COPY of nginx.conf needed
+# Production NGINX setup
 FROM nginx:alpine
-# React build will be mounted via docker-compose
+COPY --from=build /app/dist /usr/share/nginx/html
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+
