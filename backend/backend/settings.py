@@ -30,8 +30,24 @@ DEBUG = os.getenv("DEBUG", "False").lower() == "true"
 
 ALLOWED_HOSTS = ["*"]
 # CSRF & CORS
-CSRF_TRUSTED_ORIGINS = os.getenv("CSRF_TRUSTED_ORIGINS", "").split(",")
-CORS_ALLOWED_ORIGINS = os.getenv("CORS_ALLOWED_ORIGINS", "").split(",")
+#CSRF_TRUSTED_ORIGINS = os.getenv("CSRF_TRUSTED_ORIGINS", "").split(",")
+#CORS_ALLOWED_ORIGINS = os.getenv("CORS_ALLOWED_ORIGINS", "").split(",")
+
+CSRF_TRUSTED_ORIGINS = [
+    "http://localhost:3010",
+    "http://127.0.0.1:3010",
+    "http://153.92.208.112:3010",
+    "https://dcustom.co.uk",
+    "https://www.dcustom.co.uk",
+]
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3010",
+    "http://127.0.0.1:3010",
+    "http://153.92.208.112:3010",
+    "https://dcustom.co.uk",
+    "https://www.dcustom.co.uk",
+]
 
 
 REST_FRAMEWORK = {
