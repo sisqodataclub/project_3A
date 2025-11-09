@@ -5,6 +5,7 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
+    container_name: derrick-backend
     restart: always
     volumes:
       - ./backend:/app
@@ -17,37 +18,21 @@ services:
     env_file:
       - ./backend/.env
     networks:
-      - project_network
+      - proxy_network
 
   frontend:
     build:
       context: ./frontend
       dockerfile: Dockerfile
+    container_name: derrick-frontend
     restart: always
     expose:
       - "80"
     depends_on:
       - backend
     networks:
-      - project_network
-
-  nginx:
-    image: nginx:latest
-    container_name: project_3a-nginx
-    restart: always
-    ports:
-      - "80:80"
-      - "443:443"
-      - "3010:80"   # also map port 80 inside container → 3010 on host
-    volumes:
-      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf:ro
-      - /etc/letsencrypt:/etc/letsencrypt:ro
-    depends_on:
-      - backend
-      - frontend
-    networks:
-      - project_network
+      - proxy_network
 
 networks:
-  project_network:
-    driver: bridge
+  proxy_network:
+    external: true
